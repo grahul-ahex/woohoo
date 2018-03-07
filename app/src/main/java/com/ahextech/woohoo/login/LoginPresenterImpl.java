@@ -36,6 +36,7 @@ public class LoginPresenterImpl implements LoginPresenterInterface, LoginInterac
 
     @Override
     public void onAuthFailure(String status) {
+        view.hideProgressDialog();
         view.onLoginFailure(status);
     }
 

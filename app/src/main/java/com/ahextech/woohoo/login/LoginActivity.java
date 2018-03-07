@@ -1,10 +1,12 @@
 package com.ahextech.woohoo.login;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ahextech.woohoo.R;
+import com.ahextech.woohoo.signup.SignUpActivity;
+
+import java.net.PasswordAuthentication;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -137,20 +142,21 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
                 break;
             case R.id.tv_sign_up:
-                Toast.makeText(this, "Sign Up", Toast.LENGTH_SHORT).show();
-
+                Intent signUpIntent = new Intent(this, SignUpActivity.class);
+                startActivity(signUpIntent);
                 break;
             case R.id.iv_view_password:
                 ivShowPassword.setVisibility(View.VISIBLE);
                 ivHidePassword.setVisibility(View.GONE);
-                Toast.makeText(this, "Show Password", Toast.LENGTH_SHORT).show();
+                etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+//                Toast.makeText(this, "Show Password", Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.iv_no_view_password:
                 ivHidePassword.setVisibility(View.VISIBLE);
                 ivShowPassword.setVisibility(View.GONE);
-
-                Toast.makeText(this, "Hide Password", Toast.LENGTH_SHORT).show();
+                etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
+//                Toast.makeText(this, "Hide Password", Toast.LENGTH_SHORT).show();
 
                 break;
         }

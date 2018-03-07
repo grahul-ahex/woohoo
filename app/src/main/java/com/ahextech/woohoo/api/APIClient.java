@@ -17,4 +17,6 @@ public interface APIClient {
     @FormUrlEncoded
     Call<LoginResponseModel> authenticate(@Field("email") String email,
                                           @Field("password") String password);
+
+
 }
