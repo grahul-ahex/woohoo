@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,29 +19,27 @@ import android.widget.Toast;
 import com.ahextech.woohoo.R;
 import com.ahextech.woohoo.signup.SignUpActivity;
 
-import java.net.PasswordAuthentication;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements LoginView, View.OnClickListener {
 
     @BindView(R.id.et_email_address)
-    EditText etEmail;
+    private EditText etEmail;
     @BindView(R.id.et_login_password)
-    EditText etPassword;
+    private EditText etPassword;
     @BindView(R.id.iv_no_view_password)
-    ImageView ivShowPassword;
+    private ImageView ivShowPassword;
     @BindView(R.id.iv_view_password)
-    ImageView ivHidePassword;
+    private ImageView ivHidePassword;
     @BindView(R.id.tv_forgot_details)
-    TextView tvForgotDetails;
+    private TextView tvForgotDetails;
     @BindView(R.id.layout_btn_login)
-    RelativeLayout loginButton;
+    private RelativeLayout loginButton;
     @BindView(R.id.tv_login_button_text)
-    TextView tvLogin;
+    private TextView tvLogin;
     @BindView(R.id.tv_sign_up)
-    TextView tvSignUp;
+    private TextView tvSignUp;
 
     private LoginPresenterImpl presenter;
     private String email, password;
@@ -54,12 +53,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            validateFields();
 
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            validateFields();
         }
     };
 
@@ -116,16 +115,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
     }
 
     @Override
-    public void showPassword() {
-
-    }
-
-    @Override
-    public void hidePassword() {
-
-    }
-
-    @Override
     public void onLoginFailure(String status) {
         Snackbar.make(etEmail, status, Snackbar.LENGTH_SHORT).show();
 
@@ -148,15 +137,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
             case R.id.iv_view_password:
                 ivShowPassword.setVisibility(View.VISIBLE);
                 ivHidePassword.setVisibility(View.GONE);
-                etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-//                Toast.makeText(this, "Show Password", Toast.LENGTH_SHORT).show();
-
+                etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 break;
             case R.id.iv_no_view_password:
                 ivHidePassword.setVisibility(View.VISIBLE);
                 ivShowPassword.setVisibility(View.GONE);
-                etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
-//                Toast.makeText(this, "Hide Password", Toast.LENGTH_SHORT).show();
+                etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
                 break;
         }

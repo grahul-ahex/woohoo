@@ -1,4 +1,4 @@
-package com.ahextech.woohoo.signup;
+package com.ahextech.woohoo;
 
 /**
  * Created by ahextech on 7/3/18.

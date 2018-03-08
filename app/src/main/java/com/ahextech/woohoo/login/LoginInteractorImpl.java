@@ -1,6 +1,7 @@
 package com.ahextech.woohoo.login;
 
 
+import com.ahextech.woohoo.POJO.LoginModel;
 import com.ahextech.woohoo.POJO.LoginResponseModel;
 import com.ahextech.woohoo.api.APIClient;
 import com.ahextech.woohoo.api.APIService;
@@ -20,7 +21,10 @@ public class LoginInteractorImpl implements LoginInteractor, Callback<LoginRespo
     public void authenticateUser(onAuthCompletedListener listener, String email, String password) {
         this.listener = listener;
         APIClient apiClient = APIService.getClient().create(APIClient.class);
-        Call<LoginResponseModel> call = apiClient.authenticate(email, password);
+        LoginModel loginModel = new LoginModel();
+        loginModel.setEmail(email);
+        loginModel.setPassword(password);
+        Call<LoginResponseModel> call = apiClient.authenticate(loginModel);
         call.enqueue(this);
     }
 

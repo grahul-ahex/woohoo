@@ -85,18 +85,22 @@
             android:textSize="16sp" />
 
         <RelativeLayout
+            android:id="@+id/password_toggle_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2">
+            android:layout_weight="0.2"
+            android:clickable="true"
+            android:focusable="true">
 
             <ImageView
                 android:id="@+id/iv_view_password"
                 android:layout_width="18dp"
                 android:layout_height="14dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/eye"
+                android:background="?attr/selectableItemBackground"
                 android:gravity="start"
                 android:paddingLeft="3dp"
+                android:src="@drawable/eye"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
                 android:textSize="16sp"
@@ -107,9 +111,10 @@
                 android:layout_width="18dp"
                 android:layout_height="14dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/eye_off"
+                android:background="?attr/selectableItemBackground"
                 android:gravity="start"
                 android:paddingLeft="3dp"
+                android:src="@drawable/eye_off"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
                 android:textSize="16sp"
@@ -154,12 +159,13 @@
         android:text="@string/forgot_login_details"
         android:textColor="#b3b3b3"
         android:textSize="15sp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#211645"
         android:layout_above="@id/sig_up_layout"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="15dp"
+        android:background="#211645" />
 
     <LinearLayout
         android:id="@+id/sig_up_layout"

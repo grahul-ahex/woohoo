@@ -3,7 +3,7 @@ package com.ahextech.woohoo.api;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.ahextech.woohoo.signup.Utils.BASE_URL;
+import static com.ahextech.woohoo.Utils.BASE_URL;
 
 /**
  * Created by ahextech on 7/3/18.

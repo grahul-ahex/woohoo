@@ -8,6 +8,7 @@ public interface LoginView {
 
 
     void showLoginButton();
+
     void hideLoginButton();
 
     void showProgressDialog();
@@ -15,10 +16,6 @@ public interface LoginView {
     void hideProgressDialog();
 
     void onSuccessfulLogin(String status);
-
-    void showPassword();
-
-    void hidePassword();
 
 
     void onLoginFailure(String status);

@@ -1,10 +1,10 @@
 package com.ahextech.woohoo.api;
 
+import com.ahextech.woohoo.POJO.LoginModel;
 import com.ahextech.woohoo.POJO.LoginResponseModel;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 /**
@@ -14,9 +14,7 @@ import retrofit2.http.POST;
 public interface APIClient {
 
     @POST("/api/login")
-    @FormUrlEncoded
-    Call<LoginResponseModel> authenticate(@Field("email") String email,
-                                          @Field("password") String password);
+    Call<LoginResponseModel> authenticate(@Body LoginModel loginModel);
 
 
 }
