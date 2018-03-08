@@ -1,5 +1,6 @@
 package com.ahextech.woohoo.login;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -44,6 +46,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
     private LoginPresenterImpl presenter;
     private String email, password;
     private ProgressDialog dialog;
+    private Dialog alertDialog;
 
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -116,8 +119,20 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
     @Override
     public void onLoginFailure(String status) {
-        Snackbar.make(etEmail, status, Snackbar.LENGTH_SHORT).show();
+//        Snackbar.make(etEmail, status, Snackbar.LENGTH_SHORT).show();
+        alertDialog = new Dialog(this);
+        alertDialog.setContentView(R.layout.alert_dialog);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
 
+        Button btn = alertDialog.findViewById(R.id.btn_try_again);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     @Override

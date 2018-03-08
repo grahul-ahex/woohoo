@@ -16,4 +16,7 @@
 
     <string name="username_error">is Taken. Try another.</string>
     <string name="last_name">Last Name</string>
+    <string name="alert_box_title">Wrong Combination!</string>
+    <string name="alert_message">The email address and password \ncombination you entered is wrong.</string>
+    <string name="try_again">Try Again!</string>
 </resources>
