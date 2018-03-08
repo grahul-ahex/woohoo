@@ -38,7 +38,7 @@
         android:textSize="16sp" />
 
     <LinearLayout
-        android:id="@+id/login_email_layout"
+        android:id="@+id/first_name_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@id/tv_enter_username"
@@ -68,10 +68,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/login_password_layout"
+        android:id="@+id/last_name_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@id/login_email_layout"
+        android:layout_below="@id/first_name_layout"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginTop="16dp"
@@ -87,8 +87,9 @@
             android:layout_weight="0.95"
             android:background="@null"
             android:gravity="start"
-            android:hint="Last Name"
+            android:hint="@string/last_name"
             android:paddingLeft="30dp"
+            android:paddingStart="30dp"
             android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="#b3b3b3"
@@ -98,27 +99,24 @@
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/layout_btn_proceed"
+    <Button
+        android:id="@+id/btn_complete"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@id/login_password_layout"
+        android:layout_below="@id/last_name_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginTop="32dp"
-        android:background="@drawable/button_bg">
-
-        <TextView
-            android:id="@+id/tv_button_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/next"
-            android:textColor="#b3b3b3"
-            android:textSize="16sp" />
-
-    </RelativeLayout>
+        android:background="@drawable/button_bg"
+        android:clickable="true"
+        android:elevation="3dp"
+        android:focusable="true"
+        android:fontFamily="sans-serif"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textColor="#b3b3b3"
+        android:textSize="16sp" />
 
 
 </RelativeLayout>

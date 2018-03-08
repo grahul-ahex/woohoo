@@ -3,8 +3,8 @@ package com.ahextech.woohoo.login;
 
 import com.ahextech.woohoo.POJO.LoginModel;
 import com.ahextech.woohoo.POJO.LoginResponseModel;
-import com.ahextech.woohoo.api.APIClient;
 import com.ahextech.woohoo.api.APIService;
+import com.ahextech.woohoo.api.APIClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,11 +20,11 @@ public class LoginInteractorImpl implements LoginInteractor, Callback<LoginRespo
     @Override
     public void authenticateUser(onAuthCompletedListener listener, String email, String password) {
         this.listener = listener;
-        APIClient apiClient = APIService.getClient().create(APIClient.class);
+        APIService apiService = APIClient.getClient().create(APIService.class);
         LoginModel loginModel = new LoginModel();
         loginModel.setEmail(email);
         loginModel.setPassword(password);
-        Call<LoginResponseModel> call = apiClient.authenticate(loginModel);
+        Call<LoginResponseModel> call = apiService.authenticate(loginModel);
         call.enqueue(this);
     }
 
@@ -39,10 +39,11 @@ public class LoginInteractorImpl implements LoginInteractor, Callback<LoginRespo
 
     @Override
     public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
-        if (call.isExecuted() && response.isSuccessful()) {
+        if (call.isExecuted()) {
             switch (response.code()) {
                 case 200:
                     LoginResponseModel model = response.body();
+                    int responseCode = response.code();
                     listener.onAuthSuccess(model);
                     break;
                 case 404:

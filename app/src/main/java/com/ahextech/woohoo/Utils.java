@@ -5,5 +5,5 @@ package com.ahextech.woohoo;
  */
 
 public interface Utils {
-    String BASE_URL = "https://app.mywoohoo.io/";
+    String BASE_URL = "https://app.mywoohoo.io";
 }

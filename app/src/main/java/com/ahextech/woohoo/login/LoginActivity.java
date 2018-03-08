@@ -25,21 +25,21 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity implements LoginView, View.OnClickListener {
 
     @BindView(R.id.et_email_address)
-    private EditText etEmail;
+    EditText etEmail;
     @BindView(R.id.et_login_password)
-    private EditText etPassword;
+    EditText etPassword;
     @BindView(R.id.iv_no_view_password)
-    private ImageView ivShowPassword;
+    ImageView ivShowPassword;
     @BindView(R.id.iv_view_password)
-    private ImageView ivHidePassword;
+    ImageView ivHidePassword;
     @BindView(R.id.tv_forgot_details)
-    private TextView tvForgotDetails;
+    TextView tvForgotDetails;
     @BindView(R.id.layout_btn_login)
-    private RelativeLayout loginButton;
+    RelativeLayout loginButton;
     @BindView(R.id.tv_login_button_text)
-    private TextView tvLogin;
+    TextView tvLogin;
     @BindView(R.id.tv_sign_up)
-    private TextView tvSignUp;
+    TextView tvSignUp;
 
     private LoginPresenterImpl presenter;
     private String email, password;

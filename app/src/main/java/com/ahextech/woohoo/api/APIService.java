@@ -1,24 +1,24 @@
 package com.ahextech.woohoo.api;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.ahextech.woohoo.POJO.LoginModel;
+import com.ahextech.woohoo.POJO.LoginResponseModel;
+import com.ahextech.woohoo.POJO.RegistrationModel;
+import com.ahextech.woohoo.POJO.RegistrationReponseModel;
 
-import static com.ahextech.woohoo.Utils.BASE_URL;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 /**
  * Created by ahextech on 7/3/18.
  */
 
-public class APIService {
-    public static Retrofit retrofit = null;
+public interface APIService {
 
-    public static Retrofit getClient() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
+    @POST("/api/login/")
+    Call<LoginResponseModel> authenticate(@Body LoginModel loginModel);
+
+    @POST("/apiv2/user/")
+    Call<RegistrationReponseModel> registerUser(@Body RegistrationModel regModel);
+
 }

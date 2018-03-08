@@ -5,4 +5,15 @@ package com.ahextech.woohoo.signup;
  */
 
 public interface InteractorInterface {
+
+    void checkUserNameAvailability(onUserNameAvailability listener,
+                                   String email);
+
+    interface onUserNameAvailability {
+        void onUserNameAvailable();
+
+        void onUserNameUnavailable(String username);
+
+        void onConnectionStatus(String status);
+    }
 }

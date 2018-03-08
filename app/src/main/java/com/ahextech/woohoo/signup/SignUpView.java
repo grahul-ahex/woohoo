@@ -5,8 +5,9 @@ package com.ahextech.woohoo.signup;
  */
 
 public interface SignUpView {
-    void showUserNameError();
+    void showUserNameError(String username);
     void showNextButton();
     void onValidUserName();
 
+    void showConnectionErrorMsg(String status);
 }

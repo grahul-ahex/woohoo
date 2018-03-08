@@ -26,7 +26,7 @@
         android:textSize="18sp" />
 
     <LinearLayout
-        android:id="@+id/login_email_layout"
+        android:id="@+id/first_name_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@id/tv_home_assistant"
@@ -57,10 +57,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/login_password_layout"
+        android:id="@+id/last_name_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@id/login_email_layout"
+        android:layout_below="@id/first_name_layout"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginTop="16dp"
@@ -129,7 +129,7 @@
         android:id="@+id/layout_btn_login"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@id/login_password_layout"
+        android:layout_below="@id/last_name_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
