@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ahextech.woohoo.R;
+import com.ahextech.woohoo.ShowProgressDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,15 +23,17 @@ import butterknife.ButterKnife;
  * Created by ahextech on 8/3/18.
  */
 
-public class SignUpDetailsFragment extends Fragment implements View.OnClickListener {
+public class SignUpDetailsFragment extends Fragment implements View.OnClickListener, MyInterface {
     @BindView(R.id.et_first_name)
     EditText etFirstName;
     @BindView(R.id.et_last_name)
     EditText etLastName;
     @BindView(R.id.btn_complete)
     Button btnCompleteReg;
-    private String username, password, firstName, lastName;
+    private String email, password, firstName, lastName;
+    private SignUpDetailsPresenter signUpDetailsPresenter;
     private SignUpCompleteInterface signUpCompleteInterface;
+    private ShowProgressDialog progressDialog;
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -46,16 +50,18 @@ public class SignUpDetailsFragment extends Fragment implements View.OnClickListe
 
         }
     };
+    private boolean isRegistered;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         ButterKnife.bind(this, view);
+        signUpDetailsPresenter = new SignUpDetailsPresenter(this);
         signUpCompleteInterface = (SignUpCompleteInterface) getContext();
         Bundle bundle = getArguments();
         if (bundle != null) {
-            username = bundle.getString("username");
+            email = bundle.getString("username");
             password = bundle.getString("password");
         }
         etFirstName.addTextChangedListener(textWatcher);
@@ -84,8 +90,23 @@ public class SignUpDetailsFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_complete:
-                signUpCompleteInterface.signUpCompleted();
+                progressDialog = new ShowProgressDialog(getContext(), "Please wait");
+                progressDialog.showDialog();
+                signUpDetailsPresenter.registerUser(email, password, firstName + " " + lastName);
                 break;
         }
+    }
+
+    @Override
+    public void onRegistrationCompleted() {
+        progressDialog.hideDialog();
+        signUpCompleteInterface.signUpCompleted();
+    }
+
+    @Override
+    public void onRegistrationFailed() {
+        progressDialog.hideDialog();
+        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+
     }
 }

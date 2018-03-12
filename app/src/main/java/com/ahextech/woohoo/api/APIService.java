@@ -1,12 +1,12 @@
 package com.ahextech.woohoo.api;
 
-import com.ahextech.woohoo.POJO.LoginModel;
 import com.ahextech.woohoo.POJO.LoginResponseModel;
-import com.ahextech.woohoo.POJO.RegistrationModel;
 import com.ahextech.woohoo.POJO.RegistrationReponseModel;
+import com.ahextech.woohoo.POJO.UserNameAvailabilityResponse;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
@@ -15,10 +15,20 @@ import retrofit2.http.POST;
 
 public interface APIService {
 
-    @POST("/api/login/")
-    Call<LoginResponseModel> authenticate(@Body LoginModel loginModel);
+    @FormUrlEncoded
+    @POST("/apiv2/session")
+    Call<LoginResponseModel> authenticateUser(@Field("email") String email,
+                                              @Field("password") String password);
 
+    @FormUrlEncoded
     @POST("/apiv2/user/")
-    Call<RegistrationReponseModel> registerUser(@Body RegistrationModel regModel);
+    Call<RegistrationReponseModel> registerUser(@Field("email") String email,
+                                                @Field("password") String password,
+                                                @Field("name") String username);
+
+
+    @FormUrlEncoded
+    @POST("/apiv2/woohoo/email")
+    Call<UserNameAvailabilityResponse> checkUserNameAvailability(@Field("email") String email);
 
 }

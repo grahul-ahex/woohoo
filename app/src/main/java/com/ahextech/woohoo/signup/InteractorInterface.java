@@ -16,4 +16,5 @@ public interface InteractorInterface {
 
         void onConnectionStatus(String status);
     }
+
 }

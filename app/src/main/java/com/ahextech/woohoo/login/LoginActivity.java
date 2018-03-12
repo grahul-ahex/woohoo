@@ -1,7 +1,6 @@
 package com.ahextech.woohoo.login;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -19,6 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ahextech.woohoo.R;
+import com.ahextech.woohoo.ShowProgressDialog;
+import com.ahextech.woohoo.homescreen.HomeScreenActivity;
+import com.ahextech.woohoo.sharefpref.SessionManager;
 import com.ahextech.woohoo.signup.SignUpActivity;
 
 import butterknife.BindView;
@@ -45,8 +47,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
     private LoginPresenterImpl presenter;
     private String email, password;
-    private ProgressDialog dialog;
+    //    private ProgressDialog dialog;
     private Dialog alertDialog;
+    private ShowProgressDialog dialog;
 
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -99,22 +102,27 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
     @Override
     public void showProgressDialog() {
-        dialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
-        dialog.setMessage("Authenticating.....");
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(true);
-        dialog.show();
+        dialog = new ShowProgressDialog(this, "Authenticating");
+        dialog.showDialog();
     }
 
     @Override
     public void hideProgressDialog() {
-        dialog.hide();
+        dialog.hideDialog();
     }
 
     @Override
     public void onSuccessfulLogin(String status) {
         Snackbar.make(etEmail, status, Snackbar.LENGTH_SHORT).show();
+        SessionManager sessionManager = new SessionManager(this);
+        sessionManager.createLoginSession(email, password);
+
+        // Starting HomeActivity
+        Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -147,6 +155,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
                 break;
             case R.id.tv_sign_up:
                 Intent signUpIntent = new Intent(this, SignUpActivity.class);
+                signUpIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(signUpIntent);
                 break;
             case R.id.iv_view_password:
@@ -158,7 +167,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
                 ivHidePassword.setVisibility(View.VISIBLE);
                 ivShowPassword.setVisibility(View.GONE);
                 etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-
                 break;
         }
     }
@@ -167,5 +175,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
         email = etEmail.getText().toString();
         password = etPassword.getText().toString();
         presenter.validateLoginFields(email, password);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

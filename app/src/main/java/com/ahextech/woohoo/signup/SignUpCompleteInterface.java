@@ -5,5 +5,6 @@ package com.ahextech.woohoo.signup;
  */
 
 public interface SignUpCompleteInterface {
+
     void signUpCompleted();
 }

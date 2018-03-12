@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,8 +22,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ahextech.woohoo.R;
+import com.ahextech.woohoo.ShowProgressDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +34,7 @@ import butterknife.ButterKnife;
  * Created by ahextech on 8/3/18.
  */
 
-public class RegistrationFragment extends Fragment implements SignUpView, View.OnClickListener {
+public class RegistrationFragment extends Fragment implements SignUpView, View.OnClickListener, View.OnTouchListener {
     @BindView(R.id.username_layout)
     LinearLayout userNameLayout;
     @BindView(R.id.et_username)
@@ -56,6 +62,7 @@ public class RegistrationFragment extends Fragment implements SignUpView, View.O
     private String email, username, password;
     private SignUpPresenterImpl signUpPresenter;
     private ChangeFragments myInterface;
+    private ShowProgressDialog showProgressDialog;
 
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -91,6 +98,7 @@ public class RegistrationFragment extends Fragment implements SignUpView, View.O
         tvLogIn.setOnClickListener(this);
         btnNext.setOnClickListener(this);
         btnProceed.setOnClickListener(this);
+        ivShowPassword.setOnTouchListener(this);
         validateUserName();
         validatePassword();
         return view;
@@ -100,12 +108,12 @@ public class RegistrationFragment extends Fragment implements SignUpView, View.O
         password = etCreatePwd.getText().toString();
         if (password.equals("")) {
             btnProceed.setEnabled(false);
-            btnProceed.
-                    setTextColor(getResources().getColor(R.color.LoginDisabledTextColor));
+            btnProceed.setTextColor(getResources()
+                    .getColor(R.color.LoginDisabledTextColor));
         } else {
             btnProceed.setEnabled(true);
-            btnProceed.
-                    setTextColor(getResources().getColor(R.color.LoginEnabledTextColor));
+            btnProceed.setTextColor(getResources()
+                    .getColor(R.color.LoginEnabledTextColor));
 
         }
     }
@@ -126,6 +134,7 @@ public class RegistrationFragment extends Fragment implements SignUpView, View.O
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void showUserNameError(String username) {
+        showProgressDialog.hideDialog();
         String errorMessage = username + " " + getResources().getString(R.string.username_error);
         tvUserNameError.setText(errorMessage);
         tvUserNameError.setVisibility(View.VISIBLE);
@@ -136,12 +145,8 @@ public class RegistrationFragment extends Fragment implements SignUpView, View.O
     }
 
     @Override
-    public void showNextButton() {
-
-    }
-
-    @Override
     public void onValidUserName() {
+        showProgressDialog.hideDialog();
         tvUserNameError.setVisibility(View.INVISIBLE);
         passwordLayout.setVisibility(View.VISIBLE);
         userNameLayout.setVisibility(View.GONE);
@@ -152,8 +157,15 @@ public class RegistrationFragment extends Fragment implements SignUpView, View.O
     }
 
     @Override
-    public void showConnectionErrorMsg(String status) {
+    public void showProgressDialog() {
+        showProgressDialog = new ShowProgressDialog(getContext(), "Please wait");
+        showProgressDialog.showDialog();
+    }
 
+
+    @Override
+    public void showConnectionErrorMsg(String status) {
+        Snackbar.make(tvLogIn, status, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -167,9 +179,29 @@ public class RegistrationFragment extends Fragment implements SignUpView, View.O
                 signUpPresenter.validateUserName(email);
                 break;
             case R.id.btn_proceed:
-                myInterface.loadFragments(email, password);
-//                signUpPresenter.validateUserName(email, password, username);
+                if (password.length() < 8) {
+                    Toast.makeText(context, "Password should be of min 8 characters", Toast.LENGTH_SHORT).show();
+                } else {
+                    myInterface.loadFragments(email, password);
+
+                }
+
                 break;
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                etCreatePwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                etCreatePwd.moveCursorToVisibleOffset();
+                etCreatePwd.setSelection(etCreatePwd.getText().toString().length());
+                break;
+            case MotionEvent.ACTION_UP:
+                etCreatePwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                break;
+        }
+        return true;
     }
 }

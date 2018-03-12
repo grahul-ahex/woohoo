@@ -1,10 +1,9 @@
 package com.ahextech.woohoo.login;
 
 
-import com.ahextech.woohoo.POJO.LoginModel;
+import com.ahextech.woohoo.MyApplication;
 import com.ahextech.woohoo.POJO.LoginResponseModel;
 import com.ahextech.woohoo.api.APIService;
-import com.ahextech.woohoo.api.APIClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,16 +19,15 @@ public class LoginInteractorImpl implements LoginInteractor, Callback<LoginRespo
     @Override
     public void authenticateUser(onAuthCompletedListener listener, String email, String password) {
         this.listener = listener;
-        APIService apiService = APIClient.getClient().create(APIService.class);
-        LoginModel loginModel = new LoginModel();
-        loginModel.setEmail(email);
-        loginModel.setPassword(password);
-        Call<LoginResponseModel> call = apiService.authenticate(loginModel);
+        APIService apiService = MyApplication.getInstance()
+                .getClient().create(APIService.class);
+        Call<LoginResponseModel> call = apiService.authenticateUser(email, password);
         call.enqueue(this);
     }
 
     @Override
-    public void validateFields(String email, String password, onValidateFieldListener validateFieldListener) {
+    public void validateFields(String email, String password,
+                               onValidateFieldListener validateFieldListener) {
         if (email.equals("") || password.equals("")) {
             validateFieldListener.onValidationFailure();
         } else {

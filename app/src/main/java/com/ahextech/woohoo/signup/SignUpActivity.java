@@ -49,7 +49,9 @@ public class SignUpActivity extends AppCompatActivity implements ChangeFragments
 
     @Override
     public void startLoginActivity() {
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override

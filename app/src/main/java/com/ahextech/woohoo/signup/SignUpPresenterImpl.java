@@ -8,13 +8,16 @@ public class SignUpPresenterImpl implements PresenterInterface, SignUpInteractor
     private SignUpView view;
     private InteractorInterface interactor;
 
+
     public SignUpPresenterImpl(SignUpView view) {
         this.view = view;
         interactor = new SignUpInteractorImpl();
     }
 
+
     @Override
     public void validateUserName(String email) {
+        view.showProgressDialog();
         interactor.checkUserNameAvailability(this, email);
     }
 
